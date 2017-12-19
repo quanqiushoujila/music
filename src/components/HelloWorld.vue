@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}<span>2222</span></h1>
+    <h1>{{ msg }} <i class="icon-ok"></i></h1>
     <h2>Essential Links</h2>
     <ul>
       <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
