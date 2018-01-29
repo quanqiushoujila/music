@@ -2,5 +2,15 @@
 * @Author: kai
 * @Date:   2017-12-19 16:51:30
 * @Last Modified by:   kai
-* @Last Modified time: 2017-12-19 16:51:30
+* @Last Modified time: 2018-01-29 13:17:29
 */
+@import "variable.scss";
+
+body, html{
+  line-height: 1;
+  font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial, sans-serif, 'Droid Sans Fallback';
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  background: $color-background;
+  color: $color-text;
+}
