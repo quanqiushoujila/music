@@ -70,7 +70,8 @@ export default {
     },
     _initDots () {
       this.dots = new Array(this.children.length)
-    }
+    },
+    _play () {}
   },
   mounted: function () {
     setTimeout(() => {
@@ -79,7 +80,11 @@ export default {
       this._initDots()
     }, 20)
     window.addEventListener('resize', () => {
+      if (!this.slider) {
+        return
+      }
       this._setSliderWidth(true)
+      this.slider.refresh()
     })
   },
   created: function () {}
