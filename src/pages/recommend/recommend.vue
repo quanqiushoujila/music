@@ -1,6 +1,16 @@
 <template>
-  <div>
-    <slider></slider>
+  <div class="recommend">
+    <div class="recommend-content">
+      <div class="slider-content">
+        <slider>
+          <div v-for="(item, index) of slider" key="index">
+            <a :href="item.linkUrl">
+              <img :src="item.picUrl" alt="slider">
+            </a>
+          </div>
+        </slider>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -32,5 +42,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scope>
+
 </style>
