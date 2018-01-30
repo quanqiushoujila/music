@@ -37,9 +37,9 @@ export default {
   },
   methods: {
     _setSliderWidth (isResize) {
+      this.children = this.$refs.sliderGroup.children
       let sliderWidth = this.$refs.slider.clientWidth
       let width = 0
-      this.children = this.$refs.sliderGroup.children
       for (let i = 0, len = this.children.length; i < len; i++) {
         let child = this.children[i]
         addClass(child, 'slider-item')
@@ -65,19 +65,40 @@ export default {
       })
 
       this.slider.on('scrollEnd', () => {
+        let pageIndex = this.slider.getCurrentPage().pageX
+        if (this.loop) {
+          pageIndex -= 1
+        }
 
+        this.currentPageIndex = pageIndex
+
+        if (this.autoPlay) {
+          clearTimeout(this.timer)
+          this._play()
+        }
       })
     },
     _initDots () {
       this.dots = new Array(this.children.length)
     },
-    _play () {}
+    _play () {
+      let pageIndex = this.currentPageIndex + 1
+      if (this.loop) {
+        pageIndex += 1
+      }
+      this.timer = setTimeout(() => {
+        this.slider.goToPage(pageIndex, 0, 400)
+      }, this.interval)
+    }
   },
   mounted: function () {
     setTimeout(() => {
       this._setSliderWidth()
-      this._initSlider()
       this._initDots()
+      this._initSlider()
+      if (this.autoPlay) {
+        this._play()
+      }
     }, 20)
     window.addEventListener('resize', () => {
       if (!this.slider) {
@@ -87,7 +108,9 @@ export default {
       this.slider.refresh()
     })
   },
-  created: function () {}
+  destroyed: function () {
+    clearTimeout(this.timer)
+  }
 }
 </script>
 
