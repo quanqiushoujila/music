@@ -1,4 +1,6 @@
 'use strict'
+const express = require('express')
+const axios = require('axios')
 const utils = require('./utils')
 const webpack = require('webpack')
 const config = require('../config')
@@ -10,6 +12,25 @@ const portfinder = require('portfinder')
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
+
+var app = express()
+var apiRoutes = express.Router()
+apiRoutes.get('/getDiscList', function (req, res) {
+  var url = 'https://c.y.qq.com/v8/fcg-bin/getmv_by_tag'
+  axios.get(url, {
+    headers: {
+      referer: 'https://c.y.qq.com/',
+      host: 'c.y.qq.com'
+    },
+    params: req.query
+  }).then((response) => {
+    res.json(response.data)
+  }).catch((e) => {
+    console.log(e)
+  })
+})
+app.use('/api', apiRoutes)
+
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
