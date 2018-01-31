@@ -12,12 +12,13 @@
       </div>
       <div class="recommend-list">
         <h3 class="title">电台</h3>
-        <ul class="content">
+        <ul class="content" v-if="radioList.length">
           <li class="content-item" v-for="(item, index) of radioList" :key="index">
             <img v-lazy="item.picUrl" alt="pic">
             <p class="name">{{item.Ftitle}}</p>
           </li>
         </ul>
+        <loading v-if="!radioList.length"></loading>
       </div>
     </div>
   </div>
@@ -27,9 +28,11 @@
 import {getRecommend} from 'api/recommend'
 import {ERR_OK} from 'api/config'
 import Slider from 'base/slider/slider'
+import Loading from 'base/loading/loading'
+
 export default {
   name: 'recomment',
-  components: {Slider},
+  components: {Slider, Loading},
   data: function () {
     return {
       slider: [],
@@ -72,7 +75,6 @@ export default {
             width: 50%;
             float: left;
             overflow: hidden;
-            padding-right: 8px;
             margin-bottom: 10px;
             img {
               width: 100%;
