@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { getSingerList, getSingerDisc } from 'api/singer'
+import { getSingerList } from 'api/singer'
 import { ERR_OK } from 'api/config'
 export default {
   name: 'singer',
@@ -22,16 +22,10 @@ export default {
           this.list = res.data
         }
       })
-    },
-    _getSingerDisc () {
-      getSingerDisc().then((res) => {
-        console.log('222', res)
-      })
     }
   },
   created: function () {
     this._getSingerList()
-    this._getSingerDisc()
   }
 }
 </script>
