@@ -2,7 +2,7 @@
 * @Author: kai
 * @Date:   2017-12-19 16:51:30
 * @Last Modified by:   kai
-* @Last Modified time: 2018-01-29 13:17:29
+* @Last Modified time: 2018-02-05 14:57:37
 */
 @import "variable.scss";
 
@@ -13,4 +13,8 @@ body, html{
   -webkit-tap-highlight-color: transparent;
   background: $color-background;
   color: $color-text;
+}
+p, h1, h2, h3, h4, h5, h6 {
+  padding: 0;
+  margin: 0;
 }

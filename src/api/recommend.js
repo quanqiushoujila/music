@@ -15,6 +15,6 @@ export const getRecommend = () => {
 
 export const getRecommendList = () => {
   return axios.get('/api/recommend').then((res) => {
-    return Promise.resolve(res)
+    return Promise.resolve(res.data)
   })
 }
