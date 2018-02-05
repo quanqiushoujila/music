@@ -1,0 +1,582 @@
+{
+  "code": 0,
+  "subcode": 0,
+  "message": "",
+  "default": 0,
+  "data":
+  {
+    "mvlist": [
+    {
+      "listennum": 416103,
+      "mv_id": 1445713,
+      "mvscore": 0,
+      "mvtitle": "我继续 Eagle’s Eye 微电影 (华纳官方 Official HD Micro-Movie)",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/g0025efc47e_496_280/0",
+      "publictime": "2018-2-3",
+      "singerid": 4286,
+      "singermid": "001BLpXF2DyJe2",
+      "singername": "林俊杰",
+      "singers": [
+      {
+        "id": 4286,
+        "mid": "001BLpXF2DyJe2",
+        "name": "林俊杰"
+      }],
+      "vid": "g0025efc47e"
+    },
+    {
+      "listennum": 1699920,
+      "mv_id": 1442275,
+      "mvscore": 0,
+      "mvtitle": "BINGBIAN病变",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/y00258qfqnp_496_280/0",
+      "publictime": "2018-1-15",
+      "singerid": 2094270,
+      "singermid": "000OusAF06Yrnr",
+      "singername": "鞠文娴",
+      "singers": [
+      {
+        "id": 2094270,
+        "mid": "000OusAF06Yrnr",
+        "name": "鞠文娴"
+      }],
+      "vid": "y00258qfqnp"
+    },
+    {
+      "listennum": 4953128,
+      "mv_id": 1373553,
+      "mvscore": 0,
+      "mvtitle": "羊 (SHEEP)",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/z0024kfc12z_496_280/0",
+      "publictime": "2017-10-7",
+      "singerid": 60894,
+      "singermid": "002MfEld3FWp0R",
+      "singername": "张艺兴",
+      "singers": [
+      {
+        "id": 60894,
+        "mid": "002MfEld3FWp0R",
+        "name": "张艺兴"
+      }],
+      "vid": "z0024kfc12z"
+    },
+    {
+      "listennum": 10256387,
+      "mv_id": 1439542,
+      "mvscore": 0,
+      "mvtitle": "体面 (《前任3：再见前任》电影插曲)",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/c0025c297rz_496_280/0",
+      "publictime": "2018-1-5",
+      "singerid": 67008,
+      "singermid": "000poF8D027tPr",
+      "singername": "于文文",
+      "singers": [
+      {
+        "id": 67008,
+        "mid": "000poF8D027tPr",
+        "name": "于文文"
+      }],
+      "vid": "c0025c297rz"
+    },
+    {
+      "listennum": 8495926,
+      "mv_id": 1438347,
+      "mvscore": 0,
+      "mvtitle": "想你",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/g0025dltuzc_496_280/0",
+      "publictime": "2017-12-28",
+      "singerid": 180646,
+      "singermid": "002yeznU3VAVEV",
+      "singername": "吴亦凡",
+      "singers": [
+      {
+        "id": 180646,
+        "mid": "002yeznU3VAVEV",
+        "name": "吴亦凡"
+      },
+      {
+        "id": 161432,
+        "mid": "002EI0UQ3vJz5h",
+        "name": "赵丽颖"
+      }],
+      "vid": "g0025dltuzc"
+    },
+    {
+      "listennum": 7654619,
+      "mv_id": 1426832,
+      "mvscore": 0,
+      "mvtitle": "说散就散 (《前任3：再见前任》电影主题曲)",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/y00257obhi3_496_280/0",
+      "publictime": "2017-12-12",
+      "singerid": 36691,
+      "singermid": "00472DR10Ytv83",
+      "singername": "袁娅维",
+      "singers": [
+      {
+        "id": 36691,
+        "mid": "00472DR10Ytv83",
+        "name": "袁娅维"
+      }],
+      "vid": "y00257obhi3"
+    },
+    {
+      "listennum": 2154897,
+      "mv_id": 1440084,
+      "mvscore": 0,
+      "mvtitle": "广东爱情故事",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/u0025a1ytl2_496_280/0",
+      "publictime": "2018-1-8",
+      "singerid": 1398057,
+      "singermid": "004Hxj1m48xwGi",
+      "singername": "广东雨神",
+      "singers": [
+      {
+        "id": 1398057,
+        "mid": "004Hxj1m48xwGi",
+        "name": "广东雨神"
+      }],
+      "vid": "u0025a1ytl2"
+    },
+    {
+      "listennum": 254241,
+      "mv_id": 1445001,
+      "mvscore": 0,
+      "mvtitle": "Beggar",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/g0025a4hu1c_496_280/0",
+      "publictime": "2018-1-31",
+      "singerid": 116322,
+      "singermid": "003XriCI0OfGYj",
+      "singername": "黄子韬",
+      "singers": [
+      {
+        "id": 116322,
+        "mid": "003XriCI0OfGYj",
+        "name": "黄子韬"
+      }],
+      "vid": "g0025a4hu1c"
+    },
+    {
+      "listennum": 11806195,
+      "mv_id": 442583,
+      "mvscore": 0,
+      "mvtitle": "Panama",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/i00259f6o2t_496_280/0",
+      "publictime": "2013-11-1",
+      "singerid": 182279,
+      "singermid": "003tMnB31YZPet",
+      "singername": "Matteo",
+      "singers": [
+      {
+        "id": 182279,
+        "mid": "003tMnB31YZPet",
+        "name": "Matteo"
+      }],
+      "vid": "i00259f6o2t"
+    },
+    {
+      "listennum": 139825,
+      "mv_id": 1444728,
+      "mvscore": 0,
+      "mvtitle": "Bad Boy",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/q0025hm507q_496_280/0",
+      "publictime": "2018-1-29",
+      "singerid": 283148,
+      "singermid": "004NfJdF0gn6Z1",
+      "singername": "Red Velvet",
+      "singers": [
+      {
+        "id": 283148,
+        "mid": "004NfJdF0gn6Z1",
+        "name": "Red Velvet"
+      }],
+      "vid": "q0025hm507q"
+    },
+    {
+      "listennum": 831061,
+      "mv_id": 1442664,
+      "mvscore": 0,
+      "mvtitle": "带你去旅行",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/l0025vuorqz_496_280/0",
+      "publictime": "2018-1-18",
+      "singerid": 1521580,
+      "singermid": "004BHpmw0G9dZG",
+      "singername": "校长",
+      "singers": [
+      {
+        "id": 1521580,
+        "mid": "004BHpmw0G9dZG",
+        "name": "校长"
+      }],
+      "vid": "l0025vuorqz"
+    },
+    {
+      "listennum": 591703,
+      "mv_id": 1339682,
+      "mvscore": 0,
+      "mvtitle": "PLANET (歌词版)",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/g0024k3ffh7_496_280/0",
+      "publictime": "2017-7-6",
+      "singerid": 21513,
+      "singermid": "002mKsFq0j2uUf",
+      "singername": "ラムジ",
+      "singers": [
+      {
+        "id": 21513,
+        "mid": "002mKsFq0j2uUf",
+        "name": "ラムジ"
+      }],
+      "vid": "g0024k3ffh7"
+    },
+    {
+      "listennum": 49636,
+      "mv_id": 1444737,
+      "mvscore": 0,
+      "mvtitle": "有火",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/b0025wzxdtu_496_280/0",
+      "publictime": "2018-2-4",
+      "singerid": 146,
+      "singermid": "004GPm8B362txY",
+      "singername": "谢霆锋",
+      "singers": [
+      {
+        "id": 146,
+        "mid": "004GPm8B362txY",
+        "name": "谢霆锋"
+      }],
+      "vid": "b0025wzxdtu"
+    },
+    {
+      "listennum": 145439911,
+      "mv_id": 286247,
+      "mvscore": 90,
+      "mvtitle": "小苹果 (《老男孩猛龙过江》电影宣传曲)",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/z00141ofe80_496_280/0",
+      "publictime": "2014-5-29",
+      "singerid": 11761,
+      "singermid": "002Sm9iK4RIsCr",
+      "singername": "筷子兄弟",
+      "singers": [
+      {
+        "id": 11761,
+        "mid": "002Sm9iK4RIsCr",
+        "name": "筷子兄弟"
+      }],
+      "vid": "z00141ofe80"
+    },
+    {
+      "listennum": 25775449,
+      "mv_id": 287998,
+      "mvscore": 100,
+      "mvtitle": "两只老虎",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/p0014ilsdrb_496_280/0",
+      "publictime": "2014-6-3",
+      "singerid": 8061,
+      "singermid": "002DYd0J2HmOvc",
+      "singername": "儿歌",
+      "singers": [
+      {
+        "id": 8061,
+        "mid": "002DYd0J2HmOvc",
+        "name": "儿歌"
+      }],
+      "vid": "p0014ilsdrb"
+    },
+    {
+      "listennum": 115329,
+      "mv_id": 1445137,
+      "mvscore": 0,
+      "mvtitle": "乐见大牌X张天：开年第一神秘新人全解析",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/z0025vhydi1_496_280/0",
+      "publictime": "2018-1-31",
+      "singerid": 2089875,
+      "singermid": "003mJYns4PGYJE",
+      "singername": "张天",
+      "singers": [
+      {
+        "id": 2089875,
+        "mid": "003mJYns4PGYJE",
+        "name": "张天"
+      }],
+      "vid": "z0025vhydi1"
+    },
+    {
+      "listennum": 128386,
+      "mv_id": 1445203,
+      "mvscore": 0,
+      "mvtitle": "粉红色的回忆 (《唐人街探案2》电影拜年歌)",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/s00255ea48d_496_280/0",
+      "publictime": "2018-2-1",
+      "singerid": 4423,
+      "singermid": "000vYUqh1SqjQQ",
+      "singername": "华语群星",
+      "singers": [
+      {
+        "id": 4423,
+        "mid": "000vYUqh1SqjQQ",
+        "name": "华语群星"
+      }],
+      "vid": "s00255ea48d"
+    },
+    {
+      "listennum": 330282,
+      "mv_id": 1410541,
+      "mvscore": 0,
+      "mvtitle": "起风了",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/x0025b8jts6_496_280/0",
+      "publictime": "2017-11-28",
+      "singerid": 1481170,
+      "singermid": "00210cxa3CNkFg",
+      "singername": "买辣椒也用券",
+      "singers": [
+      {
+        "id": 1481170,
+        "mid": "00210cxa3CNkFg",
+        "name": "买辣椒也用券"
+      }],
+      "vid": "x0025b8jts6"
+    },
+    {
+      "listennum": 754010,
+      "mv_id": 1444065,
+      "mvscore": 0,
+      "mvtitle": "LOVE SCENARIO (사랑을 했다)",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/j0025ethmfg_496_280/0",
+      "publictime": "2018-1-25",
+      "singerid": 346960,
+      "singermid": "003F1Vhd0S2FDg",
+      "singername": "iKON",
+      "singers": [
+      {
+        "id": 346960,
+        "mid": "003F1Vhd0S2FDg",
+        "name": "iKON"
+      }],
+      "vid": "j0025ethmfg"
+    },
+    {
+      "listennum": 3394175,
+      "mv_id": 1442442,
+      "mvscore": 0,
+      "mvtitle": "等你下课(with 杨瑞代)官方完整歌词版MV",
+      "picurl": "http://puui.qpic.cn/qqvideo_ori/0/s0025z3h6i9_496_280/0",
+      "publictime": "2018-1-18",
+      "singerid": 4558,
+      "singermid": "0025NhlN2yWrP4",
+      "singername": "周杰伦",
+      "singers": [
+      {
+        "id": 4558,
+        "mid": "0025NhlN2yWrP4",
+        "name": "周杰伦"
+      }],
+      "vid": "s0025z3h6i9"
+    }],
+    "sum": 1218972,
+    "taglist":
+    {
+      "area": [
+      {
+        "id": 0,
+        "title": "全部"
+      },
+      {
+        "id": 1,
+        "title": "内地"
+      },
+      {
+        "id": 2,
+        "title": "港台"
+      },
+      {
+        "id": 3,
+        "title": "欧美"
+      },
+      {
+        "id": 4,
+        "title": "韩国"
+      },
+      {
+        "id": 5,
+        "title": "日本"
+      },
+      {
+        "id": 6,
+        "title": "其他"
+      }],
+      "tag": [
+      {
+        "id": 0,
+        "title": "全部"
+      },
+      {
+        "id": 2,
+        "title": "官方版"
+      },
+      {
+        "id": 3,
+        "title": "影视原声"
+      },
+      {
+        "id": 9,
+        "title": "舞蹈"
+      },
+      {
+        "id": 10,
+        "title": "混音版"
+      },
+      {
+        "id": 11,
+        "title": "KTV版"
+      },
+      {
+        "id": 12,
+        "title": "音乐电影"
+      },
+      {
+        "id": 13,
+        "title": "演唱会"
+      },
+      {
+        "id": 14,
+        "title": "颁奖礼"
+      },
+      {
+        "id": 16,
+        "title": "动漫"
+      },
+      {
+        "id": 23,
+        "title": "翻制版"
+      },
+      {
+        "id": 26,
+        "title": "预告版"
+      },
+      {
+        "id": 27,
+        "title": "花絮版"
+      },
+      {
+        "id": 28,
+        "title": "游戏"
+      },
+      {
+        "id": 29,
+        "title": "广告"
+      },
+      {
+        "id": 40,
+        "title": "创意"
+      },
+      {
+        "id": 41,
+        "title": "搞笑"
+      },
+      {
+        "id": 43,
+        "title": "制服"
+      },
+      {
+        "id": 45,
+        "title": "一镜到底"
+      },
+      {
+        "id": 46,
+        "title": "迷幻"
+      },
+      {
+        "id": 47,
+        "title": "重口味"
+      },
+      {
+        "id": 48,
+        "title": "鬼畜"
+      },
+      {
+        "id": 49,
+        "title": "穿越"
+      },
+      {
+        "id": 50,
+        "title": "剧情"
+      },
+      {
+        "id": 51,
+        "title": "清新"
+      },
+      {
+        "id": 52,
+        "title": "民族风"
+      },
+      {
+        "id": 53,
+        "title": "弹奏"
+      },
+      {
+        "id": 54,
+        "title": "景色"
+      },
+      {
+        "id": 55,
+        "title": "杀马特"
+      },
+      {
+        "id": 56,
+        "title": "戏曲"
+      },
+      {
+        "id": 57,
+        "title": "儿歌"
+      }],
+      "year": [
+      {
+        "id": 0,
+        "title": "全部"
+      },
+      {
+        "id": 12,
+        "title": "2018"
+      },
+      {
+        "id": 11,
+        "title": "2017"
+      },
+      {
+        "id": 8,
+        "title": "2016"
+      },
+      {
+        "id": 7,
+        "title": "2015"
+      },
+      {
+        "id": 1,
+        "title": "2014"
+      },
+      {
+        "id": 2,
+        "title": "2013"
+      },
+      {
+        "id": 3,
+        "title": "2012"
+      },
+      {
+        "id": 4,
+        "title": "2011"
+      },
+      {
+        "id": 9,
+        "title": "2010"
+      },
+      {
+        "id": 5,
+        "title": "00年代"
+      },
+      {
+        "id": 6,
+        "title": "其他"
+      }]
+    }
+  }
+}

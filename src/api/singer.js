@@ -1,6 +1,19 @@
-/*
-* @Author: kai
-* @Date:   2018-01-31 21:30:53
-* @Last Modified by:   kai
-* @Last Modified time: 2018-01-31 21:30:53
-*/
+import jsonp from 'common/js/jsonp'
+import { commonParams, options } from './config'
+
+export function getSingerList () {
+  const url = 'https://c.y.qq.com/v8/fcg-bin/v8.fcg'
+
+  const data = Object.assign({}, commonParams, {
+    channel: 'singer',
+    page: 'list',
+    key: 'all_all_all',
+    pagesize: 100,
+    pagenum: 1,
+    hostUin: 0,
+    needNewCode: 0,
+    platform: 'yqq'
+  })
+  console.log('singer', data)
+  return jsonp(url, data, options)
+}

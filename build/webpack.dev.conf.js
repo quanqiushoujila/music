@@ -13,22 +13,10 @@ const portfinder = require('portfinder')
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
-var app = express()
-var apiRoutes = express.Router()
-apiRoutes.get('/getDiscList', function (req, res) {
-  var url = 'https://c.y.qq.com/v8/fcg-bin/getmv_by_tag'
-  axios.get(url, {
-    headers: {
-      referer: 'https://c.y.qq.com/',
-      host: 'c.y.qq.com'
-    },
-    params: req.query
-  }).then((response) => {
-    res.json(response.data)
-  }).catch((e) => {
-    console.log(e)
-  })
-})
+const app = express()
+const apiRoutes = express.Router()
+const singer = require('../static/singer.json')
+const recommend = require('../static/recommend.json')
 app.use('/api', apiRoutes)
 
 
@@ -56,6 +44,18 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
+    },
+    before (app) {
+      app.get('/api/recommend', (req, res) => {
+        res.json({
+          data: recommend
+        })
+      }),
+      app.get('/api/singer', (req, res) => {
+        res.json({
+          data: singer
+        })
+      })
     }
   },
   plugins: [

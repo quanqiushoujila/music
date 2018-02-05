@@ -20,12 +20,22 @@
         </ul>
         <loading v-if="!radioList.length"></loading>
       </div>
+      <div class="recommend-list">
+        <h3 class="title">推荐</h3>
+        <ul class="content" v-if="radioList.length">
+          <li class="content-item" v-for="(item, index) of radioList" :key="index">
+            <img v-lazy="item.picUrl" alt="pic">
+            <p class="name">{{item.Ftitle}}</p>
+          </li>
+        </ul>
+        <loading v-if="!radioList.length"></loading>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import {getRecommend, getDiscList} from 'api/recommend'
+import { getRecommend, getRecommendList } from 'api/recommend'
 import {ERR_OK} from 'api/config'
 import Slider from 'base/slider/slider'
 import Loading from 'base/loading/loading'
@@ -33,7 +43,7 @@ import Loading from 'base/loading/loading'
 export default {
   name: 'recomment',
   components: {Slider, Loading},
-  data: function () {
+  data () {
     return {
       slider: [],
       radioList: []
@@ -49,17 +59,15 @@ export default {
         }
       })
     },
-    _getDiscList () {
-      getDiscList().then((res) => {
-        if (res.code === ERR_OK) {
-          // let data = res.data
-        }
+    _getRecommendList() {
+      getRecommendList().then((res) => {
+        console.log(res)
       })
     }
   },
   created: function () {
     this._getRecommend()
-    this._getDiscList()
+    this._getRecommendList()
   }
 }
 </script>

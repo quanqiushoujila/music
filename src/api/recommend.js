@@ -1,6 +1,6 @@
 import jsonp from 'common/js/jsonp'
-import {commonParams, options} from './config'
-// import axios from 'axios'
+import { commonParams, options } from './config'
+import axios from 'axios'
 
 export const getRecommend = () => {
   const url = 'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg'
@@ -13,17 +13,8 @@ export const getRecommend = () => {
   return jsonp(url, data, options)
 }
 
-export const getDiscList = () => {
-  const url = 'https://c.y.qq.com/v8/fcg-bin/getmv_by_tag'
-
-  const data = Object.assign({}, commonParams, {
-    platform: 'yqq',
-    hostUin: 0,
-    loginUin: 0,
-    needNewCode: 0,
-    cmd: 'shoubo',
-    lan: 'all'
+export const getRecommendList = () => {
+  return axios.get('/api/recommend').then((res) => {
+    return Promise.resolve(res)
   })
-
-  return jsonp(url, data, options)
 }
