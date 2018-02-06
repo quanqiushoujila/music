@@ -1,13 +1,13 @@
 <template>
   <div class="singer" ref="singer">
-    <list-view :data="singers"></list-view>
+    <list-view :data="singers" @selectSinger='selectSinger'></list-view>
     <router-view/>
   </div>
 </template>
 
 <script>
 import ListView from 'base/listview/listview'
-import { getSingerList } from 'api/singer'
+import { getSingerList, getSingerDetail } from 'api/singer'
 import { ERR_OK } from 'api/config'
 
 const HOT_NAME = '热门'
@@ -27,6 +27,10 @@ export default {
         if (res.code === ERR_OK) {
           this.singers = this._initSinger(res.data.list)
         }
+      })
+    },
+    _getSingerDetail (id) {
+      getSingerDetail(id).then((res) => {
       })
     },
     _initSinger (data) {
@@ -83,6 +87,9 @@ export default {
     },
     _gePicurl (id) {
       return `//y.gtimg.cn/music/photo_new/T001R150x150M000${id}.jpg?max_age=2592000`
+    },
+    selectSinger (item) {
+      this._getSingerDetail(item.mid)
     }
   },
   watch: {

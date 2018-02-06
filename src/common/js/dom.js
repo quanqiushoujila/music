@@ -12,4 +12,13 @@ const hasClass = (el, className) => {
   return reg.test(el.className)
 }
 
-export {addClass, hasClass}
+const getData = (el, name, val) => {
+  const attr = 'data-' + name
+  if (val) {
+    return el.setAttribute(attr, val)
+  } else {
+    return el.getAttribute(attr)
+  }
+}
+
+export {addClass, hasClass, getData}
