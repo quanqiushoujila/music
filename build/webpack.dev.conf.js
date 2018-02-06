@@ -46,6 +46,20 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       poll: config.dev.poll,
     },
     before (app) {
+      app.get('/api/getRecommendList', (req, res) => {
+        const url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
+
+        axios.get(url, {
+          headers: {
+            referer: 'https://c.y.qq.com/'
+          },
+          params: res.query
+        }).then((response) => {
+          res.json(response.data)
+        }).catch((e) => {
+          console.log(e)
+        })
+      }),
       app.get('/api/recommend', (req, res) => {
         res.json({
           data: recommend
