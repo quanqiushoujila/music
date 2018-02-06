@@ -12,6 +12,13 @@
         </ul>
       </li>
     </ul>
+    <div class="list-shortcut">
+      <ul>
+        <li class="item" v-for="(item, index) of shortcutList" :key="index" :data-index="index">
+          {{item}}
+        </li>
+      </ul>
+    </div>
   </scroll>
 </template>
 
@@ -28,6 +35,15 @@ export default {
   },
   data () {
     return {}
+  },
+  computed: {
+    shortcutList () {
+      return this.data.map((item) => {
+        return item.title.substr(0, 1)
+      })
+    }
+  },
+  methods: {
   }
 }
 </script>
@@ -40,7 +56,7 @@ export default {
     height: 100%;
     overflow: hidden;
     background: $color-background;
-    .list-group{
+    .list-group {
       padding-bottom: 30px;
       .list-group-title{
         height: 30px;
@@ -65,6 +81,48 @@ export default {
           font-size: $font-size-medium;
         }
       }
+    }
+    .list-shortcut {
+      position: absolute;
+      z-index: 30;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      padding: 20px 0;
+      border-radius: 10px;
+      text-align: center;
+      background: $color-background-d;
+      font-family: Helvetica;
+      .item {
+        padding: 3px;
+        line-height: 1;
+        color: $color-text-l;
+        font-size: $font-size-small;
+        &.current{
+          color: $color-theme;
+        }
+      }
+    }
+    .list-fixed {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      .fixed-title {
+        height: 30px;
+        line-height: 30px;
+        padding-left: 20px;
+        font-size: $font-size-small;
+        color: $color-text-l;
+        background: $color-highlight-background;
+      }
+    }
+    .loading-container {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      transform: translateY(-50%);
     }
   }
 </style>
