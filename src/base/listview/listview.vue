@@ -34,6 +34,9 @@
         </li>
       </ul>
     </div>
+    <div class="list-fixed" ref="fixed" v-show="fixedTitle">
+      <div class="fixed-title">{{fixedTitle}}</div>
+    </div>
     <div v-show="!data.length" class="loading-container">
       <loading></loading>
     </div>
@@ -46,6 +49,8 @@ import Loading from 'base/loading/loading'
 import { getData } from 'common/js/dom'
 
 const ANCHOR_HEIGHT = 18
+const TITLE_HEIGHT = 30
+
 export default {
   name: 'list-view',
   components: { Scroll, Loading },
@@ -59,7 +64,9 @@ export default {
     return {
       currentIndex: 0,
       listenScroll: true,
-      scrollY: 0
+      scrollY: 0,
+      fixedTitle: '',
+      diff: -1
     }
   },
   computed: {
@@ -84,20 +91,29 @@ export default {
       let firstTouch = e.touches[0]
       this.touch.y1 = firstTouch.pageY
       this.touch.anchorIndex = +anchorIndex
-      this.currentIndex = this.touch.anchorIndex
       this._scrollTo(anchorIndex)
     },
     onShortcutTouchMove (e) {
       let firstTouch = e.touches[0]
       this.touch.y2 = firstTouch.pageY
       let delta = Math.ceil((this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT) + this.touch.anchorIndex
-      this.currentIndex = delta
       this._scrollTo(delta)
     },
     scroll (pos) {
       this.scrollY = pos ? pos.y : 0
     },
     _scrollTo (index) {
+      if (!index && index !== 0) {
+        return
+      }
+      if (index < 0) {
+        index = 0
+      }
+      if (this.listHeight.length - 2 < index) {
+        index = this.listHeight.length - 2
+      }
+      this.currentIndex = index
+      console.log(index)
       this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
     },
     _calculateHeight () {
@@ -108,21 +124,28 @@ export default {
         height += item.clientHeight
         this.listHeight.push(height)
       })
-      console.log(this.listHeight)
     }
   },
   watch: {
     scrollY (newVal, oldVal) {
       let scrollY = -newVal
       let listHeight = this.listHeight
-      console.log(scrollY)
+      const height = listHeight[listHeight.length - 1] - this.$refs.listview.$el.clientHeight
+      if (scrollY < 0) {
+        this.fixedTitle = ''
+      }
+      if (height <= scrollY) {
+        this.currentIndex = listHeight.length - 2
+        return
+      }
       for (let i = 0, len = listHeight.length - 1; i < len; i++) {
         let height1 = listHeight[i]
         let height2 = listHeight[i + 1]
         if (height1 < scrollY && height2 > scrollY) {
           this.currentIndex = i
-        } else if (scrollY > height2) {
-          this.currentIndex = i
+          this.fixedTitle = this.data[i].title
+          this.diff = height2 - scrollY
+          return
         }
       }
     },
@@ -130,6 +153,10 @@ export default {
       setTimeout(() => {
         this._calculateHeight()
       }, 20)
+    },
+    diff (newVal) {
+      let fixedTop = (newVal > 0 && newVal < TITLE_HEIGHT) ? newVal - TITLE_HEIGHT : 0
+      this.$refs.fixed.style.transform = `translate3d(0, ${fixedTop}px, 0)`
     }
   }
 }
