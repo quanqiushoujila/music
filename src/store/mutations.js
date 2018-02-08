@@ -1,6 +1,27 @@
-/*
-* @Author: kai
-* @Date:   2017-12-19 22:26:37
-* @Last Modified by:   kai
-* @Last Modified time: 2017-12-19 22:26:37
-*/
+import * as types from './mutation-types'
+
+const mutations = {
+  [types.SET_SINGER] (state, val) {
+    state.singer = val
+  },
+  [types.SET_MODE] (state, val) {
+    state.mode = val
+  },
+  [types.SET_FULL_SCREEN] (state, val) {
+    state.fullScreen = val
+  },
+  [types.SET_PLAYING_STATE] (state, val) {
+    state.playing = val
+  },
+  [types.SET_CURRENT_INDEX] (state, val) {
+    state.currentIndex = val
+  },
+  [types.SET_PLAY_LIST] (state, val) {
+    state.playlist = val
+  },
+  [types.SET_SEQUENCE_LIST] (state, val) {
+    state.sequenceList = val
+  }
+}
+
+export default mutations

@@ -40,7 +40,8 @@ module.exports = {
       'pages': resolve('src/pages'),
       'common': resolve('src/common'),
       'base': resolve('src/base'),
-      'api': resolve('src/api')
+      'api': resolve('src/api'),
+      'store': resolve('src/store')
     }
   },
   module: {

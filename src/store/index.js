@@ -1,6 +1,13 @@
-/*
-* @Author: kai
-* @Date:   2017-12-19 22:25:37
-* @Last Modified by:   kai
-* @Last Modified time: 2017-12-19 22:25:37
-*/
+import Vue from 'vue'
+import Vuex from 'vuex'
+import state from './state'
+import mutations from './mutations'
+import * as getters from './getters'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  state,
+  mutations,
+  getters
+})

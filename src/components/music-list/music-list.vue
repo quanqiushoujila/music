@@ -1,5 +1,7 @@
 <template>
-
+  <div>
+    music
+  </div>
 </template>
 
 <script>
@@ -12,5 +14,8 @@ export default {
 </script>
 
 <style  lang="scss" scoped>
-
+  div {
+    position: relative;
+    z-index: 10000;
+  }
 </style>
