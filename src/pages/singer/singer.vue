@@ -9,6 +9,7 @@
 import ListView from 'base/listview/listview'
 import { getSingerList, getSingerDetail } from 'api/singer'
 import { ERR_OK } from 'api/config'
+import { mapMutations } from 'vuex'
 
 const HOT_NAME = '热门'
 const HOT_COUNT = 10
@@ -88,11 +89,15 @@ export default {
     _gePicurl (id) {
       return `//y.gtimg.cn/music/photo_new/T001R150x150M000${id}.jpg?max_age=2592000`
     },
-    selectSinger (item) {
+    selectSinger (singer) {
       this.$router.push({
-        path: `/singer/${item.mid}`
+        path: `/singer/${singer.mid}`
       })
-    }
+      this.setSinger(singer)
+    },
+    ...mapMutations({
+      setSinger: 'SET_SINGER'
+    })
   },
   watch: {
     list () {
