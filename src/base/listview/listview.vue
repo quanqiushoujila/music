@@ -113,7 +113,6 @@ export default {
         index = this.listHeight.length - 2
       }
       this.currentIndex = index
-      console.log(index)
       this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
     },
     _calculateHeight () {

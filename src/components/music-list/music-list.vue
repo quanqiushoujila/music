@@ -3,27 +3,32 @@
     <div class="back" @click="back">
       <i class="icon-back"></i>
     </div>
-    <div class="song-list-wrapper">
-      <song-list :songs="songs"></song-list>
-    </div>
+    <scroll :data="songs" class="list">
+      <div class="song-list-wrapper">
+          <song-list :songs="songs"></song-list>
+      </div>
+    </scroll>
+
   </div>
 </template>
 
 <script>
 import SongList from 'base/song-list/song-list'
+import Scroll from 'base/scroll/scroll'
 export default {
   name: '',
   data () {
-    return {}
+    return {
+      songList: []
+    }
   },
   props: {
     songs: {
-      type: Array,
-      default: []
+      type: Array
     }
   },
   components: {
-    SongList
+    SongList, Scroll
   },
   methods: {
     back () {

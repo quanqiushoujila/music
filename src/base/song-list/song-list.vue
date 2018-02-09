@@ -1,13 +1,12 @@
 <template>
   <div class="song-list">
-    {{songs}}
     <ul>
-      <li class="item">
-        <div class="rank" v-for="(item, index) of songs" :key="index">
+      <li class="item" v-for="(item, index) of songs" :key="index" @click="selectSong(item)">
+        <div class="rank">
           <span></span>
         </div>
         <div class="content">
-          <h2 class="name">{{item.musicData.albumname}}</h2>
+          <h2 class="name">{{index + item.musicData.albumname}}</h2>
           <p class="desc"></p>
         </div>
       </li>
@@ -16,6 +15,8 @@
 </template>
 
 <script>
+import { getSingerInfo } from 'api/singer'
+import { ERR_OK } from 'api/config'
 export default {
   name: '',
   props: {
@@ -25,7 +26,21 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      vkey: '',
+      filename: ''
+    }
+  },
+  methods: {
+    selectSong (song) {
+      getSingerInfo(song.musicData.songmid).then((res) => {
+        if (ERR_OK === res.code) {
+          this.vkey = res.data.items[0].vkey
+          this.filename = res.data.items[0].filename
+          console.log(this.vkey, this.filename)
+        }
+      })
+    }
   }
 }
 </script>

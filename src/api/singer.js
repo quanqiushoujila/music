@@ -1,8 +1,10 @@
 import jsonp from 'common/js/jsonp'
 import { commonParams, options } from './config'
-// import axios from 'axios'
+import axios from 'axios'
 
-export function getSingerList () {
+const GUID = 3126304037
+
+export const getSingerList = () => {
   const url = 'https://c.y.qq.com/v8/fcg-bin/v8.fcg'
 
   const data = Object.assign({}, commonParams, {
@@ -30,9 +32,46 @@ export const getSingerDetail = (id) => {
     singermid: id,
     order: 'listen',
     begin: 0,
-    num: 30,
+    num: 200,
     songstatus: 1
   })
 
   return jsonp(url, data, options)
+}
+
+export const getSingerInfo = (songmid) => {
+  const url = 'https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg'
+  const filename = 'C400' + songmid + '.m4a'
+  // const t = (new Date()).getUTCMilliseconds()
+  // _guid = Math.round(2147483647 * Math.random()) * t % 1e10
+
+  let data = Object.assign({}, commonParams, {
+    loginUin: 0,
+    hostUin: 0,
+    format: 'jsonp',
+    platform: 'yqq',
+    needNewCode: 0,
+    cid: 205361747,
+    uin: 0,
+    songmid: songmid, // data.musicData.songmid
+    filename: filename, // 'C400${data.musicData.songmid}.m4a',
+    guid: GUID // 3126304037
+  })
+
+  return jsonp(url, data, options)
+}
+
+export const getSinger = (vkey, filename) => {
+  const url = 'http://dl.stream.qqmusic.qq.com/' + filename
+  const data = {
+    vkey: vkey,
+    guid: GUID,
+    uin: 0,
+    fromtag: 66
+  }
+  return axios.get(url, {
+    params: data
+  }).then((res, req) => {
+    return Promise.resolve(res.data)
+  })
 }

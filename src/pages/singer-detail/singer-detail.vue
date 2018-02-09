@@ -20,6 +20,8 @@ export default {
       songs: []
     }
   },
+  mounted () {
+  },
   created () {
     this._getSingerDetail(this.getSinger().mid)
   },
@@ -28,6 +30,10 @@ export default {
       getSinger: 'singer'
     }),
     _getSingerDetail (id) {
+      if (!this.getSinger().mid) {
+        this.$router.push('/singer')
+        return
+      }
       getSingerDetail(id).then((res) => {
         if (ERR_OK === res.code) {
           this.songs = res.data.list
