@@ -32,7 +32,7 @@ export const getSingerDetail = (id) => {
     singermid: id,
     order: 'listen',
     begin: 0,
-    num: 200,
+    num: 100,
     songstatus: 1
   })
 
@@ -57,8 +57,7 @@ export const getSingerInfo = (songmid) => {
     filename: filename, // 'C400${data.musicData.songmid}.m4a',
     guid: GUID // 3126304037
   })
-
-  return jsonp(url, data, options)
+  return jsonp(url, data)
 }
 
 export const getSinger = (vkey, filename) => {

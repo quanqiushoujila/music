@@ -1,6 +1,6 @@
 <template>
   <transition name="singer">
-    <music-list :songs="songs"></music-list>
+    <music-list :songs="songs" :title="title" :bgImage="bgImage"></music-list>
   </transition>
 </template>
 
@@ -17,13 +17,15 @@ export default {
   },
   data () {
     return {
-      songs: []
+      songs: [],
+      title: '',
+      bgImage: ''
     }
-  },
-  mounted () {
   },
   created () {
     this._getSingerDetail(this.getSinger().mid)
+    this.title = this.getSinger().name
+    this.bgImage = this.getSinger().avatar
   },
   methods: {
     ...mapGetters({

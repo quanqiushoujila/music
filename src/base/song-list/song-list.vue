@@ -2,12 +2,9 @@
   <div class="song-list">
     <ul>
       <li class="item" v-for="(item, index) of songs" :key="index" @click="selectSong(item)">
-        <div class="rank">
-          <span></span>
-        </div>
         <div class="content">
-          <h2 class="name">{{index + item.musicData.albumname}}</h2>
-          <p class="desc"></p>
+          <h2 class="name">{{item.musicData.songname}}</h2>
+          <p class="desc">{{getDesc(item)}}</p>
         </div>
       </li>
     </ul>
@@ -15,8 +12,10 @@
 </template>
 
 <script>
-import { getSingerInfo } from 'api/singer'
-import { ERR_OK } from 'api/config'
+// import { getSingerInfo } from 'api/singer'
+// import { ERR_OK } from 'api/config'
+// import { mapGetters } from 'vuex'
+
 export default {
   name: '',
   props: {
@@ -32,14 +31,8 @@ export default {
     }
   },
   methods: {
-    selectSong (song) {
-      getSingerInfo(song.musicData.songmid).then((res) => {
-        if (ERR_OK === res.code) {
-          this.vkey = res.data.items[0].vkey
-          this.filename = res.data.items[0].filename
-          console.log(this.vkey, this.filename)
-        }
-      })
+    getDesc (item) {
+      return `${item.musicData.singer[0].name}-${item.musicData.albumname}`
     }
   }
 }
@@ -86,6 +79,7 @@ export default {
       overflow: hidden;
       .name {
         color: $color-text;
+        font-size: 1.1em;
       }
       .desc {
         margin-top: 4px;

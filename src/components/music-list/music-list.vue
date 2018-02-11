@@ -1,40 +1,112 @@
 <template>
   <div class="music-list">
-    <div class="back" @click="back">
-      <i class="icon-back"></i>
+    <div class="music-header" ref="musicHeader">
+      <div class="back" @click="back">
+        <i class="icon-back"></i>
+      </div>
+      <h1 class="title" v-html="title"></h1>
     </div>
-    <scroll :data="songs" class="list">
+    <div class="bg-image" :style="bgImageStyle" ref="bgImage">
+      <div class="play-wrapper">
+        <div ref="playBtn" v-show="songs.length>0" class="play">
+          <i class="icon-play"></i>
+          <span class="text">随机播放全部</span>
+        </div>
+      </div>
+      <div class="filter" ref="filter"></div>
+    </div>
+    <div class="bg-layer" ref="layer"></div>
+    <scroll :data="songs" 
+            class="list" 
+            ref="list" 
+            :probe-type="probeType"
+            :listen-scroll= 'listenScroll'
+            @scroll="scroll"
+    >
       <div class="song-list-wrapper">
-          <song-list :songs="songs"></song-list>
+        <song-list :songs="songs"></song-list>
+      </div>
+      <div v-show="!songs.length" class="loading-container">
+        <loading></loading>
       </div>
     </scroll>
-
+    
   </div>
 </template>
 
 <script>
 import SongList from 'base/song-list/song-list'
 import Scroll from 'base/scroll/scroll'
+import Loading from 'base/loading/loading'
+
+const HEADERHEIGHT = 40
+const IMAGEPOSTOP = '70%'
+
 export default {
   name: '',
   data () {
     return {
-      songList: []
+      songList: [],
+      imageHeight: 0
     }
   },
   props: {
     songs: {
       type: Array
+    },
+    title: {
+      type: String,
+      default: ''
+    },
+    bgImage: {
+      type: String,
+      default: ''
+    }
+  },
+  computed: {
+    bgImageStyle () {
+      return `background-image: url(${this.bgImage})`
     }
   },
   components: {
-    SongList, Scroll
+    SongList, Scroll, Loading
+  },
+  created () {
+    this.listenScroll = true
+    this.probeType = 3
+    this.layerScrollTop = 0
+  },
+  mounted () {
+    this.imageHeight = this.$refs.bgImage.clientHeight
+    this.$refs.list.$el.style.top = this.imageHeight + 'px'
+    this.layerScrollTop = this.imageHeight - HEADERHEIGHT
   },
   methods: {
     back () {
-      this.$router.push({
-        path: '/singer'
-      })
+      this.$router.back()
+    },
+    scroll (pos) {
+      let posY = pos.y
+      let scale = 0
+
+      if (posY > 0) {
+        scale = (posY / this.imageHeight) + 1
+        this.$refs.bgImage.style.zIndex = 10
+        this.$refs.bgImage.style.transform = `scale(${scale})`
+      } else {
+        this.$refs.bgImage.style.zIndex = 0
+        if (this.layerScrollTop >= -posY) {
+          this.$refs.layer.style.top = posY + 'px'
+          this.$refs.bgImage.style.zIndex = 0
+          this.$refs.bgImage.style.paddingTop = IMAGEPOSTOP
+          this.$refs.playBtn.style.display = 'block'
+        } else {
+          this.$refs.layer.style.top = `-${this.layerScrollTop}px`
+          this.$refs.bgImage.style.paddingTop = '40px'
+          this.$refs.bgImage.style.zIndex = 10
+          this.$refs.playBtn.style.display = 'none'
+        }
+      }
     }
   }
 }
@@ -51,28 +123,34 @@ export default {
     bottom: 0;
     right: 0;
     background: $color-background;
-    .back {
+    .music-header {
       position: absolute;
       top: 0;
-      left: 6px;
-      z-index: 50;
-      .icon-back {
-        display: block;
-        padding: 10px;
-        font-size: $font-size-large-x;
-        color: $color-theme;
+      width: 100%;
+      height: 40px;
+      .back {
+        position: absolute;
+        top: 0;
+        left: 6px;
+        z-index: 50;
+        .icon-back {
+          display: block;
+          padding: 10px;
+          font-size: $font-size-large-x;
+          color: $color-theme;
+        }
       }
-    }
-    .title {
-      position: absolute;
-      top: 0;
-      left: 10%;
-      z-index: 40;
-      width: 80%;
-      text-align: center;
-      line-height: 40px;
-      font-size: $font-size-large;
-      color: $color-text;
+      .title {
+        position: absolute;
+        top: 0;
+        left: 10%;
+        z-index: 40;
+        width: 80%;
+        text-align: center;
+        line-height: 40px;
+        font-size: $font-size-large;
+        color: $color-text;
+      }
     }
     .bg-image {
       position: relative;
