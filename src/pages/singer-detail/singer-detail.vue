@@ -41,6 +41,8 @@ export default {
           this.songs = res.data.list
         }
       })
+    },
+    _normalizeSongs () {
     }
   }
 }
@@ -51,6 +53,6 @@ export default {
     transition: all .3s;
   }
   .singer-enter, .singer-leave-to {
-    transform: translate3d(100%, 0, 0)
+    transform: translate3d(100%, 0, 0);
   }
 </style>

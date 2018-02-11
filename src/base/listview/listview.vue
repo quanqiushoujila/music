@@ -27,6 +27,7 @@
       <ul>
         <li class="item" 
           v-for="(item, index) of shortcutList" 
+          @click="shortcut(index)"
           :key="index" 
           :data-index="index"
           :class="{current: currentIndex === index}">
@@ -123,6 +124,9 @@ export default {
         height += item.clientHeight
         this.listHeight.push(height)
       })
+    },
+    shortcut (index) {
+      this.currentIndex = index
     }
   },
   watch: {

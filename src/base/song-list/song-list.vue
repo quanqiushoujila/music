@@ -8,12 +8,11 @@
         </div>
       </li>
     </ul>
-    <audio :src="src" autoplay></audio>
   </div>
 </template>
 
 <script>
-import { getSinger, getSingerInfo } from 'api/singer'
+// import { getSinger, getSingerInfo } from 'api/singer'
 // import { ERR_OK } from 'api/config'
 // import { mapGetters } from 'vuex'
 
@@ -36,16 +35,7 @@ export default {
     getDesc (item) {
       return `${item.musicData.singer[0].name}-${item.musicData.albumname}`
     },
-    _getSingerInfo (songmid) {
-      getSingerInfo(songmid).then((res) => {
-        let vkey = res.data.items[0].vkey
-        let filename = res.data.items[0].filename
-        this.src = getSinger(vkey, filename)
-      })
-    },
-    selectSong (item) {
-      this._getSingerInfo(item.musicData.songmid)
-    }
+    selectSong (song) {}
   }
 }
 </script>
