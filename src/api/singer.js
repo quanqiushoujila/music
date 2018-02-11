@@ -1,6 +1,7 @@
 import jsonp from 'common/js/jsonp'
 import { commonParams, options } from './config'
-import axios from 'axios'
+import { setCookie, getCookie } from 'common/js/cookie'
+// import axios from 'axios'
 
 const GUID = 3126304037
 
@@ -55,7 +56,7 @@ export const getSingerInfo = (songmid) => {
     uin: 0,
     songmid: songmid, // data.musicData.songmid
     filename: filename, // 'C400${data.musicData.songmid}.m4a',
-    guid: GUID // 3126304037
+    guid: _guid() // 3126304037
   })
   return jsonp(url, data)
 }
@@ -64,13 +65,28 @@ export const getSinger = (vkey, filename) => {
   const url = 'http://dl.stream.qqmusic.qq.com/' + filename
   const data = {
     vkey: vkey,
-    guid: GUID,
+    guid: _guid(),
     uin: 0,
     fromtag: 66
   }
-  return axios.get(url, {
-    params: data
-  }).then((res, req) => {
-    return Promise.resolve(res.data)
-  })
+  return _urlFormat(url, data)
+}
+
+const _urlFormat = (url, data) => {
+  if (!data) {
+    return
+  }
+  let search = `?`
+  for (let key in data) {
+    search += `${key}=${data[key]}&`
+  }
+  return url + search.slice(0, -1)
+}
+
+const _guid = () => {
+  const name = 'pgv_pvid'
+  if (getCookie(name) === '') {
+    setCookie(name, GUID)
+  }
+  return getCookie(name)
 }
