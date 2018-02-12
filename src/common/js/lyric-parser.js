@@ -4,31 +4,29 @@ const STATE_PAUSE = 0
 const STATE_PLAYING = 1
 
 const tagRegMap = {
-  title: 'ti',
-  artist: 'ar',
-  album: 'al',
+  title: 'ti', // 标题
+  artist: 'ar', // 作者
+  album: 'al', // 唱片
   offset: 'offset',
   by: 'by'
 }
 
-function noop() {
-}
+function noop() {}
 
 export default class Lyric {
-  constructor(lrc, hanlder = noop) {
+  constructor(lrc, handler = noop) {
     this.lrc = lrc
-    this.tags = {}
-    this.lines = []
-    this.handler = hanlder
-    this.state = STATE_PAUSE
-    this.curLine = 0
+    this.tags = {} // 歌曲基本信息
+    this.lines = [] // 歌词、时间
+    this.handler = handler 
+    this.state = STATE_PAUSE // 播放状态
+    this.curLine = 0 // 第${curLine}歌词
 
     this._init()
   }
 
   _init() {
     this._initTag()
-
     this._initLines()
   }
 
