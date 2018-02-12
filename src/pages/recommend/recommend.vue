@@ -42,52 +42,52 @@
 </template>
 
 <script>
-import { getRecommend, getRecommendList } from 'api/recommend'
-import {ERR_OK} from 'api/config'
-import Slider from 'base/slider/slider'
-import Loading from 'base/loading/loading'
-import Scroll from 'base/scroll/scroll'
+  import { getRecommend, getRecommendList } from 'api/recommend'
+  import {ERR_OK} from 'api/config'
+  import Slider from 'base/slider/slider'
+  import Loading from 'base/loading/loading'
+  import Scroll from 'base/scroll/scroll'
 
-export default {
-  name: 'recomment',
-  components: { Slider, Loading, Scroll },
-  data () {
-    return {
-      slider: [],
-      radioList: [],
-      recommendList: []
-    }
-  },
-  methods: {
-    _getRecommend () {
-      getRecommend().then((res) => {
-        if (res.code === ERR_OK) {
-          let data = res.data
-          this.slider = data.slider
-          this.radioList = data.radioList
-        }
-      })
-    },
-    _getRecommendList () {
-      getRecommendList().then((res) => {
-        res = res.data
-        if (res.code === ERR_OK) {
-          this.recommendList = res.data.mvlist
-        }
-      })
-    },
-    loadImage () {
-      if (!this.checkloaded) {
-        this.checkloaded = true
-        this.$refs.scroll.refresh()
+  export default {
+    name: 'recomment',
+    components: { Slider, Loading, Scroll },
+    data () {
+      return {
+        slider: [],
+        radioList: [],
+        recommendList: []
       }
+    },
+    methods: {
+      _getRecommend () {
+        getRecommend().then((res) => {
+          if (res.code === ERR_OK) {
+            let data = res.data
+            this.slider = data.slider
+            this.radioList = data.radioList
+          }
+        })
+      },
+      _getRecommendList () {
+        getRecommendList().then((res) => {
+          res = res.data
+          if (res.code === ERR_OK) {
+            this.recommendList = res.data.mvlist
+          }
+        })
+      },
+      loadImage () {
+        if (!this.checkloaded) {
+          this.checkloaded = true
+          this.$refs.scroll.refresh()
+        }
+      }
+    },
+    created: function () {
+      this._getRecommend()
+      this._getRecommendList()
     }
-  },
-  created: function () {
-    this._getRecommend()
-    this._getRecommendList()
   }
-}
 </script>
 
 <style lang="scss" scoped>
