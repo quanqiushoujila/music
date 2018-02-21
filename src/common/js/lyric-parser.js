@@ -15,7 +15,7 @@ function noop() {}
 
 export default class Lyric {
   constructor(lrc, handler = noop) {
-    this.lrc = lrc
+    this.lrc = lrc //歌词
     this.tags = {} // 歌曲基本信息
     this.lines = [] // 歌词、时间
     this.handler = handler 
@@ -105,7 +105,6 @@ export default class Lyric {
     if (this.curNum < this.lines.length) {
       clearTimeout(this.timer)
       this._playRest()
-    }
   }
 
   togglePlay() {

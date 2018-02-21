@@ -38,7 +38,21 @@ export default {
       }
       getSingerDetail(id).then((res) => {
         if (ERR_OK === res.code) {
-          this.songs = res.data.list
+          const data = res.data
+          const list = data.list
+          for (let i = 0; i < list.length; i++) {
+            const music = list[i].musicData
+            let song = {
+              singerName: data.singer_name,
+              singerMid: data.singer_mid,
+              singerId: data.singer_id,
+              albumname: music.albumname,
+              songname: music.songname,
+              albummid: music.albummid,
+              picUrl: `http://y.gtimg.cn/music/photo_new/T002R300x300M000${music.albummid}.jpg?max_age=2592000`
+            }
+            this.songs.push(song)
+          }
         }
       })
     },

@@ -1,9 +1,14 @@
 <template>
-  <div class="player" v-if="singer.length">
+  <div class="player" v-if="playlist().length > 0">
     <transition name="normal">
       <div class="normal-player">
         <div class="background">
-          <img width="100%" height="100%">
+          <img width="100%" height="100%" :src="playlist()[currentIndex()].picUrl">
+        </div>
+        <div class="top">
+          <div class="back"><i class="icon-back"></i></div>
+          <div class="h1 title">{{playlist()[currentIndex()].songname}}</div>
+          <h2 class="subtitle">{{playlist()[currentIndex()].singerName}}</h2>
         </div>
       </div>
     </transition>
@@ -28,7 +33,7 @@ export default {
   },
   methods: {
     ...mapGetters([
-      'singer'
+      'singer', 'playlist', 'currentIndex'
     ]),
     _getSingerInfo (songmid) {
       getSingerInfo(songmid).then((res) => {
@@ -51,8 +56,32 @@ export default {
   top: 0;
   bottom: 0;
   width: 100%;
+  height: 100%;
   z-index: 100;
   background-color: $color-background;
+  .normal-player {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      filter: blur(20px);
+      opacity: .6;
+      z-index: -1;
+    }
+    .top {
+      position: absolute;
+      top: 0;
+      left: 6px;
+      z-index: 50;
+    }
+  }
 }
 .player-enter-active, .player-leave-active {
   transition: all .3;

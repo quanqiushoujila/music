@@ -24,7 +24,7 @@
             @scroll="scroll"
     >
       <div class="song-list-wrapper">
-        <song-list :songs="songs"></song-list>
+        <song-list :songs="songs" @select="selectItem"></song-list>
       </div>
       <div v-show="!songs.length" class="loading-container">
         <loading></loading>
@@ -38,6 +38,7 @@
 import SongList from 'base/song-list/song-list'
 import Scroll from 'base/scroll/scroll'
 import Loading from 'base/loading/loading'
+import { mapActions } from 'vuex'
 
 const HEADERHEIGHT = 40
 const IMAGEPOSTOP = '70%'
@@ -82,8 +83,15 @@ export default {
     this.layerScrollTop = this.imageHeight - HEADERHEIGHT
   },
   methods: {
+    ...mapActions([
+      'selectPlay'
+    ]),
     back () {
       this.$router.back()
+    },
+    selectItem (item, index) {
+      console.log(item, index)
+      this.selectPlay({list: this.songs, index})
     },
     scroll (pos) {
       let posY = pos.y

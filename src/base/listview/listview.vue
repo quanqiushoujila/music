@@ -3,7 +3,7 @@
     @scroll="scroll"
     class="listview" 
     ref="listview"
-    :listenScroll="listenScroll"
+    :listen-scroll="listenScroll"
     :probe-type="probeType"
     :data="data">
     <ul>
@@ -27,7 +27,6 @@
       <ul>
         <li class="item" 
           v-for="(item, index) of shortcutList" 
-          @click="shortcut(index)"
           :key="index" 
           :data-index="index"
           :class="{current: currentIndex === index}">
@@ -66,7 +65,6 @@ export default {
       currentIndex: 0,
       listenScroll: true,
       scrollY: 0,
-      fixedTitle: '',
       diff: -1
     }
   },
@@ -75,6 +73,12 @@ export default {
       return this.data.map((item) => {
         return item.title.substr(0, 1)
       })
+    },
+    fixedTitle () {
+      if (this.scrollY > 0) {
+        return ''
+      }
+      return this.data[this.currentIndex] ? this.data[this.currentIndex].title : ''
     }
   },
   created () {
@@ -97,7 +101,7 @@ export default {
     onShortcutTouchMove (e) {
       let firstTouch = e.touches[0]
       this.touch.y2 = firstTouch.pageY
-      let delta = Math.ceil((this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT) + this.touch.anchorIndex
+      let delta = Math.floor((this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT) + this.touch.anchorIndex
       this._scrollTo(delta)
     },
     scroll (pos) {
@@ -113,7 +117,7 @@ export default {
       if (this.listHeight.length - 2 < index) {
         index = this.listHeight.length - 2
       }
-      this.currentIndex = index
+      this.scrollY = -this.listHeight[index]
       this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
     },
     _calculateHeight () {
@@ -124,33 +128,26 @@ export default {
         height += item.clientHeight
         this.listHeight.push(height)
       })
-    },
-    shortcut (index) {
-      this.currentIndex = index
     }
   },
   watch: {
     scrollY (newVal, oldVal) {
       let scrollY = -newVal
       let listHeight = this.listHeight
-      const height = listHeight[listHeight.length - 1] - this.$refs.listview.$el.clientHeight
-      if (scrollY < 0) {
-        this.fixedTitle = ''
-      }
-      if (height <= scrollY) {
-        this.currentIndex = listHeight.length - 2
+      if (newVal > 0) {
+        this.currentIndex = 0
         return
       }
       for (let i = 0, len = listHeight.length - 1; i < len; i++) {
         let height1 = listHeight[i]
         let height2 = listHeight[i + 1]
-        if (height1 < scrollY && height2 > scrollY) {
+        if (height1 <= scrollY && height2 > scrollY) {
           this.currentIndex = i
-          this.fixedTitle = this.data[i].title
           this.diff = height2 - scrollY
           return
         }
       }
+      this.currentIndex = listHeight.length - 2
     },
     data () {
       setTimeout(() => {
