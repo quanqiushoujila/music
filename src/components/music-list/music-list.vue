@@ -90,7 +90,6 @@ export default {
       this.$router.back()
     },
     selectItem (item, index) {
-      console.log(item, index)
       this.selectPlay({list: this.songs, index})
     },
     scroll (pos) {

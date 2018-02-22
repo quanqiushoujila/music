@@ -1,92 +1,324 @@
 <template>
   <div class="player" v-if="playlist().length > 0">
     <transition name="normal">
-      <div class="normal-player">
+      <div class="normal-player" v-if="fullScreen()">
         <div class="background">
           <img width="100%" height="100%" :src="playlist()[currentIndex()].picUrl">
         </div>
         <div class="top">
-          <div class="back"><i class="icon-back"></i></div>
-          <div class="h1 title">{{playlist()[currentIndex()].songname}}</div>
+          <div class="back" @click="back"><i class="icon-back"></i></div>
+          <h1 class="title">{{playlist()[currentIndex()].songname}}</h1>
           <h2 class="subtitle">{{playlist()[currentIndex()].singerName}}</h2>
+        </div>
+        <div class="middle">
+          <div class="middle-l">
+            <div class="cd-wrapper">
+              <div class="cd play">
+                <img :src="playlist()[currentIndex()].picUrl" alt="" class="image">
+              </div>
+            </div>
+            <div class="playing-lyric-wrapper">
+              <div class="playing-lyric">好好好好好</div>
+            </div>
+          </div>
+          <div class="middle-r"></div>
+        </div>
+        <div class="bottom">
+          <div class="dot-wrapper">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+          </div>
+          <div class="progress-wrapper">
+           <span class="time time-l">0:00</span>
+           <div class="progress-bar-wrapper">
+             <progress-bar @percentChange="percentChange"></progress-bar>
+           </div>
+           <span class="time time-r">11:00</span>
+          </div>
+          <div class="operators">
+            <div class="icon icon-left">
+              <i class="icon-sequence"></i>
+            </div>
+            <div class="icon icon-left">
+              <i class="icon-prev"></i>
+            </div>
+            <div class="icon icon-center">
+              <i class="icon-pause"></i>
+            </div>
+            <div class="icon icon-right">
+              <i class="icon-next"></i>
+            </div>
+            <div class="icon icon-right">
+              <i class="icon icon-not-favorite"></i>
+            </div>
+          </div>
         </div>
       </div>
     </transition>
     <transition name="mini">
-      <div class="mini-player"></div>
+      <div class="mini-player">
+        
+      </div>
     </transition>
-    <audio :src="src" autoplay></audio>
+    <audio :src="src" @error="error" @canplay="canplay" @ended="ended" @play="play"></audio>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { getSinger, getSingerInfo } from 'api/singer'
-export default {
-  name: 'player',
-  data () {
-    return {
-      vkey: '',
-      filename: '',
-      src: ''
-    }
-  },
-  methods: {
-    ...mapGetters([
-      'singer', 'playlist', 'currentIndex'
-    ]),
-    _getSingerInfo (songmid) {
-      getSingerInfo(songmid).then((res) => {
-        let vkey = res.data.items[0].vkey
-        let filename = res.data.items[0].filename
-        this.src = getSinger(vkey, filename)
-      })
+  import { mapGetters, mapMutations } from 'vuex'
+  import { getSinger, getSingerInfo } from 'api/singer'
+  import ProgressBar from 'base/progress-bar/progress-bar'
+  export default {
+    name: 'player',
+    data () {
+      return {
+        vkey: '',
+        filename: '',
+        src: ''
+      }
     },
-    selectSong (item) {
-      this._getSingerInfo(item.musicData.songmid)
+    components: {
+      ProgressBar
+    },
+    methods: {
+      ...mapGetters([
+        'singer', 'playlist', 'currentIndex', 'fullScreen'
+      ]),
+      ...mapMutations({
+        setFullScreen: 'SET_FULL_SCREEN'
+      }),
+      _getSingerInfo (songmid) {
+        getSingerInfo(songmid).then((res) => {
+          let vkey = res.data.items[0].vkey
+          let filename = res.data.items[0].filename
+          this.src = getSinger(vkey, filename)
+        })
+      },
+      selectSong (item) {
+        this._getSingerInfo(item.musicData.songmid)
+      },
+      percentChange (percent) {
+      },
+      back () {
+        this.setFullScreen(false)
+      },
+      error () {},
+      canplay () {},
+      ended () {},
+      play () {}
     }
   }
-}
 </script>
 
 <style lang="scss" scoped>
-@import "../../common/scss/variable";
-.player {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  background-color: $color-background;
-  .normal-player {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    .background {
-      position: absolute;
+  @import "../../common/scss/variable";
+  .normal-enter-active, .normal-leave-active {
+    transition: all .4s;
+    .top, .bottom, .cd-wrapper {
+      transition: all .4s cubic-bezier(0.86, 0.18, 0.82, 1.32);
+    }
+  }
+  .normal-enter, .normal-leave-to {
+    opacity: 0;
+    .top {
+      transform: translate3d(0, -100px, 0);
+    }
+    .bottom {
+      transform: translate3d(0, 100px, 0);
+    }
+    .cd-wrapper {
+      transform: translate3d(-200px, 500px, 0) scale(0);
+    }
+  }
+  @keyframes rotate
+  {
+      0% {transform: rotate(0);}
+      100% {transform: rotate(360deg);}
+  }
+  .player {
+    .normal-player {
+      position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      filter: blur(20px);
-      opacity: .6;
-      z-index: -1;
+      z-index: 100;
+      background-color: $color-background;
+      .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        filter: blur(20px);
+        opacity: .6;
+        z-index: -1;
+      }
+      .top {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        .back {
+          position: absolute;
+          top: 0;
+          left: 5px;
+          .icon-back {
+            display: block;
+            font-size: 22px;
+            padding: 9px;
+            color: $color-theme;
+            transform: rotate(-90deg);
+          }
+        }
+        .title {
+          width: 70%;
+          text-align: center;
+          margin: 0 auto;
+          line-height: 40px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          color: rgba(255, 255, 255, .9);
+          font-size: 1.1em;
+        }
+        .subtitle {
+          line-height: 20px;
+          font-size: .9em;
+          text-align: center;
+          color: rgba(255, 255, 255, .9);
+        }
+      }
+      .middle {
+        position: fixed;
+        top: 80px;
+        bottom: 170px;
+        width: 100%;
+        .middle-l {
+          width: 100%;
+          height: 0;
+          padding-top: 80%;
+          position: relative;
+          .cd-wrapper {
+            position: absolute;
+            top: 0;
+            left: 10%;
+            width: 80%;
+            height: 100%;
+            .cd {
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+              &.play {
+                animation: rotate 20s linear infinite;
+              }
+              .image {
+                box-sizing: border-box;
+                border: 10px solid rgba(255, 255, 255, .1);
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                border-radius: 50%;
+              }
+            }
+          }
+          .playing-lyric-wrapper {
+            width: 80%;
+            margin: 30px auto 0;
+            text-align: center;
+            overflow: hidden;
+            .playing-lyric {
+              font-size: 1em;
+              color: rgba(255, 255, 255, .5);
+              height: 20px;
+              line-height: 20px;
+            }
+          }
+        }
+      }
+      .bottom {
+        position: absolute;
+        bottom: 50px;
+        width: 100%;
+        .dot-wrapper {
+          text-align: center;
+          padding: 10px 0;
+          .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: $color-text-l;
+            &.active {
+              width: 20px;
+              border-radius: 5px;
+              background-color: $color-text-ll;
+            }
+          }
+        }
+        .progress-wrapper {
+          width: 80%;
+          display: flex;
+          margin: 0 auto;
+          padding: 10px 0;
+          .progress-bar-wrapper {
+            margin-top: 5px;
+            flex: 1;
+          }
+          .time {
+            font-size: .8em;
+            flex: 0 0 40px;
+            width: 40px;
+            line-height: 40px;
+          }
+          .time-l {
+            text-align: left;
+          }
+          .time-r {
+            text-align: right;
+          }
+        }
+        .operators {
+          display: flex;
+          align-items: center;
+          .icon {
+            flex: 1;
+            color: $color-theme;
+            
+          }
+          .icon-left {
+            text-align: right;
+            i {
+              font-size: 2em;
+            }
+          }
+          .icon-center {
+            padding: 0 20px;
+            text-align: center;
+            i {
+              font-size: 2.5em;
+            }
+          }
+          .icon-right {
+            text-align: left;
+            i {
+              font-size: 2em;
+            }
+          }
+        }
+      }
     }
-    .top {
-      position: absolute;
-      top: 0;
-      left: 6px;
-      z-index: 50;
+    .mini-player {
+      position: fixed;
+      bottom: 0;
+      height: 60px;
+      width: 100%;
+      display: flex;
+      text-align: center;
+      background-color: $color-highlight-background;
     }
   }
-}
-.player-enter-active, .player-leave-active {
-  transition: all .3;
-}
-.player-enter, .player-leave-to {
-  transform: translate3d(100%, 0, 0)
-}
 </style>
