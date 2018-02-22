@@ -57,7 +57,21 @@
     </transition>
     <transition name="mini">
       <div class="mini-player">
-        
+        <div class="icon">
+          <img :src="playlist()[currentIndex()].picUrl" alt="" height="40" width="40" class="play">
+        </div>
+        <div class="text">
+          <h2 class="name">告白气球</h2>
+          <p class="desc">周杰伦</p>
+        </div>
+        <div class="control">
+          <progress-circle :radius="radius" :percent="percent">
+            <i class="icon-mini"></i>
+          </progress-circle>
+        </div>
+        <div class="control">
+          <i class="icon-playlist"></i>
+        </div>
       </div>
     </transition>
     <audio :src="src" @error="error" @canplay="canplay" @ended="ended" @play="play"></audio>
@@ -68,6 +82,8 @@
   import { mapGetters, mapMutations } from 'vuex'
   import { getSinger, getSingerInfo } from 'api/singer'
   import ProgressBar from 'base/progress-bar/progress-bar'
+  import ProgressCircle from 'base/progress-circle/progress-circle'
+
   export default {
     name: 'player',
     data () {
@@ -78,7 +94,7 @@
       }
     },
     components: {
-      ProgressBar
+      ProgressBar, ProgressCircle
     },
     methods: {
       ...mapGetters([
@@ -129,6 +145,12 @@
     .cd-wrapper {
       transform: translate3d(-200px, 500px, 0) scale(0);
     }
+  }
+  .mini-enter-active, .mini-leave-active {
+    transition: all .3s;
+  }
+  .mini-enter, .mini-leave-to {
+    transform: translate3d(0, -60px, 0)
   }
   @keyframes rotate
   {
@@ -317,8 +339,54 @@
       height: 60px;
       width: 100%;
       display: flex;
-      text-align: center;
+      align-items: center;
       background-color: $color-highlight-background;
+      .icon {
+        flex: 0 0 40px;
+        width: 40px;
+        padding: 0 10px 0 20px;
+        img {
+          border-radius: 50%;
+          &.play {
+            animation: rotate 10s linear infinite;
+          }
+        }
+      }
+      .text {
+        display: flex;
+        flex: 1;
+        line-height: 20px;
+        overflow: hidden;
+        box-direction: normal;
+        box-orient: vertical;
+        flex-direction: column;
+        box-pack: center;
+        justify-content: center;
+        .name {
+          margin-bottom: 2px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          font-size: 14px;
+          color: #fff;
+        }
+        .desc {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          font-size: .8em;
+          color: $color-text-d;
+        }
+      }
+      .control {
+        flex: 0 0 30px;
+        width: 30px;
+        padding: 0 10px;
+        .icon-playlist {
+          font-size: 1.8em;
+          color: $color-theme-d;
+        }
+      }
     }
   }
 </style>
