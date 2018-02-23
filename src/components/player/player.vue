@@ -209,16 +209,6 @@
           audio.loop = true
         } else {
           audio.loop = false
-          if (this.mode === playMode.random) {
-            const shufflePlayList = shuffle(this.playlist)
-            const currentIndex = this.findCurrentIndex(shufflePlayList)
-            this.setPlaylist(shufflePlayList)
-            this.setCurrentIndex(currentIndex)
-          } else {
-            this.setPlaylist(this.sequenceList)
-            const currentIndex = this.findCurrentIndex(this.sequenceList)
-            this.setCurrentIndex(currentIndex)
-          }
         }
       },
       findCurrentIndex (list) {
@@ -241,6 +231,16 @@
       currentSong (newVal) {
         if (!newVal.songmid) {
           return
+        }
+        if (this.mode === playMode.random) {
+          const shufflePlayList = shuffle(this.playlist)
+          const currentIndex = this.findCurrentIndex(shufflePlayList)
+          this.setPlaylist(shufflePlayList)
+          this.setCurrentIndex(currentIndex)
+        } else if (this.mode === playMode.sequence) {
+          const currentIndex = this.findCurrentIndex(this.sequenceList)
+          this.setPlaylist(this.sequenceList)
+          this.setCurrentIndex(currentIndex)
         }
         this.selectSong()
       },
