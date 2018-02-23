@@ -21,6 +21,9 @@ const mutations = {
   },
   [types.SET_SEQUENCE_LIST] (state, val) {
     state.sequenceList = val
+  },
+  [types.SET_CURRENT_SONG_URL] (state, val) {
+    state.currentSong.url = val
   }
 }
 

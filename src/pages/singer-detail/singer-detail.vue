@@ -43,13 +43,16 @@ export default {
           for (let i = 0; i < list.length; i++) {
             const music = list[i].musicData
             let song = {
-              singerName: data.singer_name,
-              singerMid: data.singer_mid,
-              singerId: data.singer_id,
+              singername: data.singer_name,
+              singermid: data.singer_mid,
+              singerid: data.singer_id,
               albumname: music.albumname,
               songname: music.songname,
               albummid: music.albummid,
-              picUrl: `http://y.gtimg.cn/music/photo_new/T002R300x300M000${music.albummid}.jpg?max_age=2592000`
+              songmid: music.songmid,
+              songid: music.songid,
+              interval: music.interval,
+              picUrl: `http://y.gtimg.cn/music/photo_new/T002R500x500M000${music.albummid}.jpg?max_age=2592000`
             }
             this.songs.push(song)
           }

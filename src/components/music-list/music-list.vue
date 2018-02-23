@@ -39,12 +39,14 @@ import SongList from 'base/song-list/song-list'
 import Scroll from 'base/scroll/scroll'
 import Loading from 'base/loading/loading'
 import { mapActions } from 'vuex'
+// import { songmixin } from 'common/js/mixin'
 
 const HEADERHEIGHT = 40
 const IMAGEPOSTOP = '70%'
 
 export default {
   name: '',
+  // mixins: [songmixin],
   data () {
     return {
       songList: [],

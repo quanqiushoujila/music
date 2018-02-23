@@ -57,7 +57,6 @@ export default {
       let deltaX = e.touches[0].pageX - this.touch.startX
       let offsetWidth = Math.min(this.moveProgressBtnWidth, Math.max(0, this.touch.left + deltaX))
       this._offset(offsetWidth)
-      this._triggerPercent()
     },
     progressTouchEnd (e) {
       this.touch.initiated = false
@@ -74,7 +73,7 @@ export default {
   },
   watch: {
     percent (newVal) {
-      if (!this.touch.initiated && newVal > 0) {
+      if (!this.touch.initiated && newVal >= 0) {
         let offsetWidth = this.moveProgressBtnWidth * newVal
         this._offset(offsetWidth)
       }

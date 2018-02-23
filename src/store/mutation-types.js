@@ -12,3 +12,5 @@ export const SET_CURRENT_INDEX = 'SET_CURRENT_INDEX'
 export const SET_PLAY_LIST = 'SET_PLAY_LIST'
 // 歌曲默认排序列表
 export const SET_SEQUENCE_LIST = 'SET_SEQUENCE_LIST'
+
+export const SET_CURRENT_SONG_URL = 'SET_CURRENT_SONG_URL'

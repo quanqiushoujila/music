@@ -1,20 +1,20 @@
 <template>
-  <div class="player" v-if="playlist().length > 0">
+  <div class="player" v-if="playlist.length > 0">
     <transition name="normal">
-      <div class="normal-player" v-if="fullScreen()">
+      <div class="normal-player" v-if="fullScreen">
         <div class="background">
-          <img width="100%" height="100%" :src="playlist()[currentIndex()].picUrl">
+          <img width="100%" height="100%" :src="currentSong.picUrl">
         </div>
         <div class="top">
           <div class="back" @click="back"><i class="icon-back"></i></div>
-          <h1 class="title">{{playlist()[currentIndex()].songname}}</h1>
-          <h2 class="subtitle">{{playlist()[currentIndex()].singerName}}</h2>
+          <h1 class="title">{{currentSong.songname}}</h1>
+          <h2 class="subtitle">{{currentSong.singername}}</h2>
         </div>
         <div class="middle">
           <div class="middle-l">
             <div class="cd-wrapper">
-              <div class="cd play">
-                <img :src="playlist()[currentIndex()].picUrl" alt="" class="image">
+              <div class="cd" :class="cdCls">
+                <img :src="currentSong.picUrl" alt="" class="image">
               </div>
             </div>
             <div class="playing-lyric-wrapper">
@@ -29,24 +29,24 @@
             <span class="dot"></span>
           </div>
           <div class="progress-wrapper">
-           <span class="time time-l">0:00</span>
+           <span class="time time-l">{{currentInterval}}</span>
            <div class="progress-bar-wrapper">
-             <progress-bar @percentChange="percentChange"></progress-bar>
+             <progress-bar @percentChange="percentChange" :percent="percent"></progress-bar>
            </div>
-           <span class="time time-r">11:00</span>
+           <span class="time time-r">{{songInterval}}</span>
           </div>
           <div class="operators">
             <div class="icon icon-left">
-              <i class="icon-sequence"></i>
+              <i :class="iconModeCls" @click="changeMode"></i>
             </div>
             <div class="icon icon-left">
-              <i class="icon-prev"></i>
+              <i class="icon-prev" @click="prev"></i>
             </div>
             <div class="icon icon-center">
-              <i class="icon-pause"></i>
+              <i :class="playingStateCls" @click="togglePlaying"></i>
             </div>
             <div class="icon icon-right">
-              <i class="icon-next"></i>
+              <i class="icon-next" @click="next"></i>
             </div>
             <div class="icon icon-right">
               <i class="icon icon-not-favorite"></i>
@@ -56,17 +56,17 @@
       </div>
     </transition>
     <transition name="mini">
-      <div class="mini-player">
+      <div class="mini-player" @click="miniClick">
         <div class="icon">
-          <img :src="playlist()[currentIndex()].picUrl" alt="" height="40" width="40" class="play">
+          <img :src="currentSong.picUrl" alt="" height="40" width="40" :class="[playing ? 'play' : 'play paused']">
         </div>
         <div class="text">
-          <h2 class="name">告白气球</h2>
-          <p class="desc">周杰伦</p>
+          <h2 class="name">{{currentSong.songname}}</h2>
+          <p class="desc">{{currentSong.singername}}</p>
         </div>
         <div class="control">
-          <progress-circle :radius="radius" :percent="percent">
-            <i class="icon-mini"></i>
+          <progress-circle :percent="percent">
+            <i @click.stop="togglePlaying" class="icon-mini" :class="miniIconCls"></i>
           </progress-circle>
         </div>
         <div class="control">
@@ -74,15 +74,24 @@
         </div>
       </div>
     </transition>
-    <audio :src="src" @error="error" @canplay="canplay" @ended="ended" @play="play"></audio>
+    <audio autoplay 
+      :src="src" 
+      @error="error" 
+      @canplay="canplay" 
+      @ended="ended" 
+      @play="ready"
+      @timeupdate="timeupdate"
+      ref="audio"></audio>
   </div>
 </template>
 
 <script>
   import { mapGetters, mapMutations } from 'vuex'
   import { getSinger, getSingerInfo } from 'api/singer'
+  import { playMode } from 'common/js/config'
   import ProgressBar from 'base/progress-bar/progress-bar'
   import ProgressCircle from 'base/progress-circle/progress-circle'
+  import { shuffle } from 'common/js/util'
 
   export default {
     name: 'player',
@@ -90,38 +99,160 @@
       return {
         vkey: '',
         filename: '',
-        src: ''
+        src: '',
+        currentTime: 0,
+        currentInterval: '00:00',
+        currentMode: playMode.sequence
       }
     },
     components: {
       ProgressBar, ProgressCircle
     },
-    methods: {
+    computed: {
+      modeSize () {
+        return Object.keys(playMode).length
+      },
+      allSongSize () {
+        return this.playlist.length
+      },
+      cdCls () {
+        return this.playing ? 'play' : 'play paused'
+      },
+      playingStateCls () {
+        return this.playing ? 'icon-pause' : 'icon-play'
+      },
+      miniIconCls () {
+        return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
+      },
+      iconModeCls () {
+        return this.mode === playMode.sequence ? 'icon-sequence' : (this.mode === playMode.loop ? 'icon-loop' : 'icon-random')
+      },
+      songInterval () {
+        const currentSong = this.currentSong
+        const minute = Math.floor(currentSong.interval / 60)
+        const second = currentSong.interval % 60
+        // return currentSong.interval ? minute + ':' + second : '00:00'
+        return currentSong.interval ? (minute >= 10 ? minute : ('0' + minute)) + ':' + (second >= 10 ? second : ('0' + second)) : '00:00'
+      },
+      percent () {
+        return this.currentTime ? this.currentTime / this.currentSong.interval : 0
+      },
       ...mapGetters([
-        'singer', 'playlist', 'currentIndex', 'fullScreen'
-      ]),
+        'singer', 'playlist', 'currentIndex', 'fullScreen', 'currentSong', 'playing', 'mode', 'sequenceList'
+      ])
+    },
+    methods: {
       ...mapMutations({
-        setFullScreen: 'SET_FULL_SCREEN'
+        setFullScreen: 'SET_FULL_SCREEN',
+        setPlaying: 'SET_PLAYING_STATE',
+        setCurrentIndex: 'SET_CURRENT_INDEX',
+        setMode: 'SET_MODE',
+        setPlaylist: 'SET_PLAY_LIST'
       }),
-      _getSingerInfo (songmid) {
-        getSingerInfo(songmid).then((res) => {
+      miniClick () {
+        this.setFullScreen(true)
+      },
+      _getSingerInfo () {
+        getSingerInfo(this.currentSong.songmid).then((res) => {
           let vkey = res.data.items[0].vkey
           let filename = res.data.items[0].filename
           this.src = getSinger(vkey, filename)
         })
       },
-      selectSong (item) {
-        this._getSingerInfo(item.musicData.songmid)
+      selectSong () {
+        this._getSingerInfo()
+      },
+      prev () {
+        if (!this.playing) {
+          this.setPlaying(true)
+        }
+        const audio = this.$refs.audio
+        if (this.mode === playMode.loop) {
+          audio.currentTime = 0
+        } else {
+          let currentIndex = this.currentIndex - 1 < 0 ? this.allSongSize - 1 : this.currentIndex - 1
+          this.setCurrentIndex(currentIndex)
+          this.selectSong()
+        }
+      },
+      next () {
+        if (!this.playing) {
+          this.setPlaying(true)
+        }
+        const audio = this.$refs.audio
+        if (this.mode === playMode.loop) {
+          audio.currentTime = 0
+        } else {
+          let currentIndex = this.currentIndex + 1 >= this.allSongSize ? 0 : this.currentIndex + 1
+          this.setCurrentIndex(currentIndex)
+          this.selectSong()
+        }
       },
       percentChange (percent) {
+        const audio = this.$refs.audio
+        const currentTime = Math.floor(this.currentSong.interval * percent)
+        audio.currentTime = currentTime
+      },
+      togglePlaying () {
+        this.setPlaying(!this.playing)
+        let audio = this.$refs.audio
+        this.playing ? audio.play() : audio.pause()
       },
       back () {
         this.setFullScreen(false)
       },
+      changeMode () {
+        const mode = (this.mode + 1) % this.modeSize
+        const audio = this.$refs.audio
+        this.setMode(mode)
+        if (this.mode === playMode.loop) {
+          audio.loop = true
+        } else {
+          audio.loop = false
+          if (this.mode === playMode.random) {
+            const shufflePlayList = shuffle(this.playlist)
+            const currentIndex = this.findCurrentIndex(shufflePlayList)
+            this.setPlaylist(shufflePlayList)
+            this.setCurrentIndex(currentIndex)
+          } else {
+            this.setPlaylist(this.sequenceList)
+            const currentIndex = this.findCurrentIndex(this.sequenceList)
+            this.setCurrentIndex(currentIndex)
+          }
+        }
+      },
+      findCurrentIndex (list) {
+        console.log(this.currentSong.songid)
+        return list.findIndex((item) => {
+          return item.songid === this.currentSong.songid
+        })
+      },
       error () {},
       canplay () {},
-      ended () {},
-      play () {}
+      ended () {
+        this.next()
+      },
+      ready () {},
+      timeupdate (e) {
+        this.currentTime = Math.floor(e.target.currentTime)
+      }
+    },
+    watch: {
+      currentSong (newVal) {
+        if (!newVal.songmid) {
+          return
+        }
+        this.selectSong()
+      },
+      currentTime (newVal) {
+        if (newVal < 60) {
+          this.currentInterval = '00:' + (newVal >= 10 ? newVal : '0' + newVal)
+        } else {
+          let minute = Math.floor(newVal / 60)
+          let second = newVal % 60
+          this.currentInterval = (minute >= 10 ? minute : ('0' + minute)) + ':' + (second >= 10 ? second : ('0' + second))
+        }
+      }
     }
   }
 </script>
@@ -234,6 +365,9 @@
               border-radius: 50%;
               &.play {
                 animation: rotate 20s linear infinite;
+              }
+              &.paused {
+                animation-play-state: paused;
               }
               .image {
                 box-sizing: border-box;
@@ -350,6 +484,9 @@
           &.play {
             animation: rotate 10s linear infinite;
           }
+          &.paused {
+            animation-play-state: paused;
+          }
         }
       }
       .text {
@@ -384,6 +521,13 @@
         padding: 0 10px;
         .icon-playlist {
           font-size: 1.8em;
+          color: $color-theme-d;
+        }
+        .icon-mini {
+          font-size: 32px;
+          position: absolute;
+          left: -1px;
+          top: -1px;
           color: $color-theme-d;
         }
       }
