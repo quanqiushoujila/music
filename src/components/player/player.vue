@@ -92,9 +92,11 @@
   import ProgressBar from 'base/progress-bar/progress-bar'
   import ProgressCircle from 'base/progress-circle/progress-circle'
   import { shuffle } from 'common/js/util'
+  import { playerMixin } from 'common/js/mixin'
 
   export default {
     name: 'player',
+    mixins: [playerMixin],
     data () {
       return {
         vkey: '',
@@ -172,7 +174,6 @@
         } else {
           let currentIndex = this.currentIndex - 1 < 0 ? this.allSongSize - 1 : this.currentIndex - 1
           this.setCurrentIndex(currentIndex)
-          this.selectSong()
         }
       },
       next () {
@@ -185,7 +186,6 @@
         } else {
           let currentIndex = this.currentIndex + 1 >= this.allSongSize ? 0 : this.currentIndex + 1
           this.setCurrentIndex(currentIndex)
-          this.selectSong()
         }
       },
       percentChange (percent) {
@@ -209,13 +209,15 @@
           audio.loop = true
         } else {
           audio.loop = false
+          if (this.mode === playMode.random) {
+            const shufflePlayList = shuffle(this.playlist)
+            this.resetCurrentIndex(shufflePlayList)
+            this.setPlaylist(shufflePlayList)
+          } else if (this.mode === playMode.sequence) {
+            this.resetCurrentIndex(this.sequenceList)
+            this.setPlaylist(this.sequenceList)
+          }
         }
-      },
-      findCurrentIndex (list) {
-        console.log(this.currentSong.songid)
-        return list.findIndex((item) => {
-          return item.songid === this.currentSong.songid
-        })
       },
       error () {},
       canplay () {},
@@ -228,19 +230,12 @@
       }
     },
     watch: {
-      currentSong (newVal) {
-        if (!newVal.songmid) {
+      currentSong (newVal, oldVal) {
+        if (!newVal.songid) {
           return
         }
-        if (this.mode === playMode.random) {
-          const shufflePlayList = shuffle(this.playlist)
-          const currentIndex = this.findCurrentIndex(shufflePlayList)
-          this.setPlaylist(shufflePlayList)
-          this.setCurrentIndex(currentIndex)
-        } else if (this.mode === playMode.sequence) {
-          const currentIndex = this.findCurrentIndex(this.sequenceList)
-          this.setPlaylist(this.sequenceList)
-          this.setCurrentIndex(currentIndex)
+        if (newVal.songid === oldVal.songid) {
+          return
         }
         this.selectSong()
       },
