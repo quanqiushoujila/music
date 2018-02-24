@@ -1,10 +1,12 @@
 import jsonp from 'common/js/jsonp'
 import { commonParams, options } from './config'
 import { setCookie, getCookie } from 'common/js/cookie'
-// import axios from 'axios'
+import axios from 'axios'
 
 // const GUID = 3126304037
+// const GUID = 1003162440
 const GUID = 6604877730
+// const GUID = 6990292843
 
 export const getSingerList = () => {
   const url = 'https://c.y.qq.com/v8/fcg-bin/v8.fcg'
@@ -71,6 +73,26 @@ export const getSinger = (vkey, filename) => {
     fromtag: 66
   }
   return _urlFormat(url, data)
+}
+
+export function getLyric (mid) {
+  const url = '/api/lyric'
+
+  const data = Object.assign({}, commonParams, {
+    songmid: mid,
+    platform: 'yqq',
+    hostUin: 0,
+    needNewCode: 0,
+    categoryId: 10000000,
+    pcachetime: +new Date(),
+    format: 'json'
+  })
+
+  return axios.get(url, {
+    params: data
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  })
 }
 
 const _urlFormat = (url, data) => {

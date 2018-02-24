@@ -91,7 +91,8 @@ export default {
   },
   methods: {
     ...mapMutations({
-      setFullScreen: 'SET_FULL_SCREEN'
+      setFullScreen: 'SET_FULL_SCREEN',
+      setSongReady: 'SET_SONG_READY'
     }),
     ...mapActions([
       'selectPlay', 'randomPlay', 'randomPlayBtn'
@@ -99,6 +100,7 @@ export default {
     randomSong () {
       let _songs = shuffle(this.songs)
       this.randomPlayBtn({list: _songs, index: 0, list1: this.songs})
+      this.setSongReady(false)
     },
     back () {
       this.$router.back()

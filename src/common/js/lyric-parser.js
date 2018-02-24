@@ -11,33 +11,33 @@ const tagRegMap = {
   by: 'by'
 }
 
-function noop() {}
+function noop () {}
 
 export default class Lyric {
-  constructor(lrc, handler = noop) {
-    this.lrc = lrc //歌词
+  constructor (lrc, handler = noop) {
+    this.lrc = lrc // 歌词
     this.tags = {} // 歌曲基本信息
     this.lines = [] // 歌词、时间
-    this.handler = handler 
+    this.handler = handler
     this.state = STATE_PAUSE // 播放状态
     this.curLine = 0 // 第${curLine}歌词
 
     this._init()
   }
 
-  _init() {
+  _init () {
     this._initTag()
     this._initLines()
   }
 
-  _initTag() {
+  _initTag () {
     for (let tag in tagRegMap) {
       const matches = this.lrc.match(new RegExp(`\\[${tagRegMap[tag]}:([^\\]]*)]`, 'i'))
-      this.tags[tag] = matches && matches[1] || ''
+      this.tags[tag] = matches && (matches[1] || '')
     }
   }
 
-  _initLines() {
+  _initLines () {
     const lines = this.lrc.split('\n')
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i]
@@ -58,7 +58,7 @@ export default class Lyric {
     })
   }
 
-  _findCurNum(time) {
+  _findCurNum (time) {
     for (let i = 0; i < this.lines.length; i++) {
       if (time <= this.lines[i].time) {
         return i
@@ -67,7 +67,7 @@ export default class Lyric {
     return this.lines.length - 1
   }
 
-  _callHandler(i) {
+  _callHandler (i) {
     if (i < 0) {
       return
     }
@@ -77,7 +77,7 @@ export default class Lyric {
     })
   }
 
-  _playRest() {
+  _playRest () {
     let line = this.lines[this.curNum]
     let delay = line.time - (+new Date() - this.startStamp)
 
@@ -89,7 +89,7 @@ export default class Lyric {
     }, delay)
   }
 
-  play(startTime = 0, skipLast) {
+  play (startTime = 0, skipLast) {
     if (!this.lines.length) {
       return
     }
@@ -105,9 +105,10 @@ export default class Lyric {
     if (this.curNum < this.lines.length) {
       clearTimeout(this.timer)
       this._playRest()
+    }
   }
 
-  togglePlay() {
+  togglePlay () {
     var now = +new Date()
     if (this.state === STATE_PLAYING) {
       this.stop()
@@ -119,12 +120,12 @@ export default class Lyric {
     }
   }
 
-  stop() {
+  stop () {
     this.state = STATE_PAUSE
     clearTimeout(this.timer)
   }
 
-  seek(offset) {
+  seek (offset) {
     this.play(offset)
   }
 }

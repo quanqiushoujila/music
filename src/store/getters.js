@@ -12,6 +12,10 @@ export const playlist = state => state.playlist
 
 export const sequenceList = state => state.sequenceList
 
+export const songReady = state => state.songReady
+
+export const currentSongSequenceIndex = state => state.currentSongSequenceIndex
+
 export const currentSong = (state) => {
   return state.playlist[state.currentIndex] || {}
 }

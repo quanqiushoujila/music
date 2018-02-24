@@ -8,7 +8,9 @@ const state = {
   currentIndex: -1,
   playlist: [],
   sequenceList: [],
-  currentSong: {}
+  currentSong: {},
+  currentSongSequenceIndex: -1,
+  songReady: false
 }
 
 export default state
