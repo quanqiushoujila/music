@@ -212,7 +212,6 @@
         }
       },
       findCurrentIndex (list) {
-        console.log(this.currentSong.songid)
         return list.findIndex((item) => {
           return item.songid === this.currentSong.songid
         })
