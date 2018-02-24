@@ -21,3 +21,24 @@ export const songmixin = {
     }
   }
 }
+
+export const playerMixin = {
+  computed: {
+    ...mapGetters([
+      'currentSong'
+    ])
+  },
+  methods: {
+    ...mapMutations({
+      setCurrentIndex: 'SET_CURRENT_INDEX'
+    }),
+    resetCurrentIndex (list) {
+      this.setCurrentIndex(this.findCurrentIndex(list))
+    },
+    findCurrentIndex (list) {
+      return list.findIndex((item) => {
+        return item.songid === this.currentSong.songid
+      })
+    }
+  }
+}

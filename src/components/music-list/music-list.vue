@@ -10,7 +10,7 @@
       <div class="play-wrapper">
         <div ref="playBtn" v-show="songs.length>0" class="play">
           <i class="icon-play"></i>
-          <span class="text">随机播放全部</span>
+          <span class="text" @click="randomSong">随机播放全部</span>
         </div>
       </div>
       <div class="filter" ref="filter"></div>
@@ -38,15 +38,17 @@
 import SongList from 'base/song-list/song-list'
 import Scroll from 'base/scroll/scroll'
 import Loading from 'base/loading/loading'
-import { mapActions } from 'vuex'
-// import { songmixin } from 'common/js/mixin'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { playMode } from 'common/js/config'
+import { shuffle } from 'common/js/util'
+import { playerMixin } from 'common/js/mixin'
 
 const HEADERHEIGHT = 40
 const IMAGEPOSTOP = '70%'
 
 export default {
   name: '',
-  // mixins: [songmixin],
+  mixins: [playerMixin],
   data () {
     return {
       songList: [],
@@ -69,7 +71,10 @@ export default {
   computed: {
     bgImageStyle () {
       return `background-image: url(${this.bgImage})`
-    }
+    },
+    ...mapGetters([
+      'mode', 'currentSong'
+    ])
   },
   components: {
     SongList, Scroll, Loading
@@ -85,14 +90,30 @@ export default {
     this.layerScrollTop = this.imageHeight - HEADERHEIGHT
   },
   methods: {
+    ...mapMutations({
+      setFullScreen: 'SET_FULL_SCREEN'
+    }),
     ...mapActions([
-      'selectPlay'
+      'selectPlay', 'randomPlay', 'randomPlayBtn'
     ]),
+    randomSong () {
+      let _songs = shuffle(this.songs)
+      this.randomPlayBtn({list: _songs, index: 0, list1: this.songs})
+    },
     back () {
       this.$router.back()
     },
     selectItem (item, index) {
-      this.selectPlay({list: this.songs, index})
+      let _songs = item
+      if (this.mode === playMode.random && item[index].songid !== this.currentSong.songid) {
+        _songs = shuffle(item)
+        index = _songs.findIndex((song) => {
+          return song.songid === item[index].songid
+        })
+        this.randomPlay({list: _songs, index})
+      } else {
+        this.selectPlay({list: _songs, index})
+      }
     },
     scroll (pos) {
       let posY = pos.y

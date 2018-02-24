@@ -3,7 +3,8 @@ import { commonParams, options } from './config'
 import { setCookie, getCookie } from 'common/js/cookie'
 // import axios from 'axios'
 
-const GUID = 3126304037
+// const GUID = 3126304037
+const GUID = 6604877730
 
 export const getSingerList = () => {
   const url = 'https://c.y.qq.com/v8/fcg-bin/v8.fcg'
