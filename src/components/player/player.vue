@@ -29,6 +29,7 @@
             <div class="lyric-wrapper">
               <div v-if="currentLyric">
                 <p class="text" 
+                  ref="lyricLine"
                   v-for="(item, index) in currentLyric.lines" 
                   :class="{'current': currentLineNum === index}"
                   :index="index">{{item.txt}}</p>
@@ -263,7 +264,7 @@
       },
       selectLyric () {
         getLyric(this.currentSong.songmid).then((res) => {
-          this.currentLyric = new Lyric(Base64.decode(res.lyric))
+          this.currentLyric = new Lyric(Base64.decode(res.lyric, this.handleLyric))
           if (this.playing) {
             this.currentLyric.play()
           }
@@ -272,6 +273,16 @@
           this.currentLineNum = 0
           this.playingLyric = ''
         })
+      },
+      handleLyric ({lineNum, txt}) {
+        this.currentLineNum = lineNum
+        if (lineNum > 5) {
+          let lineEl = this.$refs.lyricLine[lineNum - 5]
+          this.$refs.middleR.scrollToElement(lineEl, 1000)
+        } else {
+          this.$refs.middleR.scrollTo(0, 0, 1000)
+        }
+        this.playingLyric = txt
       },
       error () {
         console.log()
